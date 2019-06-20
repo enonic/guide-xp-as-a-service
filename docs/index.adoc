@@ -1,14 +1,14 @@
 = Step by step guide for installing enonic XP as windows service
 
 
-== 1. Java
+== 1. Install Java
 
 First, make sure the correct version of Java is installed on your system.
 
 Enonic XP SDK version comes with bundled java so you don't need to install it separately.
 See https://xp.readthedocs.io/en/stable/getstarted/other.html#install-java[Install Java] for guidance otherwise.
 
-== 2. Windows service wrapper
+== 2. Download Windows service wrapper
 
 Download windows service wrapper binary from https://github.com/kohsuke/winsw[this repo] and rename the downloaded file to desired name, i.e `winsw-2.2.0-bin.exe` -> `xp-service.exe`
 
@@ -18,7 +18,7 @@ Create new xml file named `xp-service.xml` _next to the_ `xp-service.exe` file.
 
 NOTE: xml file should be named exactly the same as exe in order for the service to discover it
 
-=== 4 . Edit the config file
+=== 4. Edit the config file
 
 Refer to the https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md[config description] to see all available options.
 
