@@ -67,6 +67,8 @@ Following command is used to do it:
 
 where `xp-service.exe` is the name of the service wrapper you downloaded earlier.
 
+IMPORTANT: You need to start cmd.exe with administrator rights to run this and following commands
+
 ==== Checking status
 
 You can check its status now by running following command:
