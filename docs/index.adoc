@@ -48,6 +48,7 @@ Refer to the https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md[c
     </serviceaccount>
 </service>
 ----
+
 <1> location of you enonic XP distribution (next to config file in `enonic-xp-windows-sdk-7.0.00-RC3` folder)
 <2> No need to modify if you used enonic XP SDK, your java home otherwise (system-wide `JAVA_HOME` will be used if omitted)
 <3> location of enonic XP home folder (next to config file in `xp-service-home` folder)
