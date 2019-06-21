@@ -58,6 +58,8 @@ TIP: To know your user name and domain type `set user` in cmd and hit enter
 
 === 5. Using service
 
+IMPORTANT: You need to start cmd.exe with administrator rights to run service commands
+
 ==== Installing
 First, we need to install our new service.
 Following command is used to do it:
@@ -66,8 +68,6 @@ Following command is used to do it:
  2019-06-20 18:09:38,107 INFO  - Installing the service with id 'xp-service'
 
 where `xp-service.exe` is the name of the service wrapper you downloaded earlier.
-
-IMPORTANT: You need to start cmd.exe with administrator rights to run this and following commands
 
 ==== Checking status
 
