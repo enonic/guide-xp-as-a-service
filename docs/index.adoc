@@ -1,21 +1,21 @@
-= Step by step guide for installing enonic XP as windows service
+= Run XP as a Windows service
 
+Step by step guide for installing Enonic XP as Windows service
 
-== Download Windows service wrapper
+== Download service wrapper
 
-Download windows service wrapper binary from https://github.com/kohsuke/winsw[this repo] and rename the downloaded file to desired name, i.e `winsw-2.2.0-bin.exe` -> `xp-service.exe`
+Start by download windows service wrapper binary this popular from https://github.com/kohsuke/winsw[Github repo].
+Rename the downloaded file to desired service name, i.e `winsw-2.2.0-bin.exe` -> `xp-service.exe`
 
-== Create windows service wrapper config
+== Create service config
 
-Create new xml file named `xp-service.xml` _next to the_ `xp-service.exe` file.
+Create new xml file named `xp-service.xml` in the same location as `xp-service.exe` file.
 
-NOTE: xml file should be named exactly the same as exe in order for the service to discover it
-
-=== Edit the config file
+NOTE: xml file must be named exactly the same as exe in order for the service to discover it
 
 Refer to the https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md[config description] to see all available options.
 
-`%BASE%` variable always points to the config file location
+The `%BASE%` variable always points to the config file location:
 
 [source, xml]
 ----
@@ -23,17 +23,17 @@ Refer to the https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md[c
     <id>xp-service</id>
     <name>Enonic XP Service</name>
     <description>Enonic XP distribution run as a MS Windows service.</description>
-    <env name="XP_INSTALL" value="%BASE%/enonic-xp-windows-sdk-7.0.0"/>    // <1>
-    <env name="JAVA_HOME" value="%XP_INSTALL%/jdk"/>                           // <2>
-    <env name="XP_HOME" value="%BASE%/xp-service-home"/>                       // <3>
+    <env name="XP_INSTALL" value="%BASE%/enonic-xp-windows-sdk-7.0.0"/> <!--1-->
+    <env name="JAVA_HOME" value="%XP_INSTALL%/jdk"/> <!--2-->
+    <env name="XP_HOME" value="%BASE%/xp-service-home"/> <!--3-->
     <executable>%XP_INSTALL%/bin/server.bat</executable>
-    <log mode="roll-by-size-time">                                             // <4>
+    <log mode="roll-by-size-time"> <!--4-->
         <sizeThreshold>10240</sizeThreshold>
         <pattern>dd-MM-yyyy</pattern>
         <autoRollAtTime>00:00:00</autoRollAtTime>
         <keepFiles>7</keepFiles>
     </log>
-    <serviceaccount>                                                           // <5>
+    <serviceaccount> <!--5-->
         <domain>***user domain***</domain>
         <user>***user name***</user>
         <password>***user password***</password>
@@ -42,56 +42,65 @@ Refer to the https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md[c
 </service>
 ----
 
-<1> location of you enonic XP distribution (next to config file in `enonic-xp-windows-sdk-7.0.0` folder)
-<2> No need to modify if you used enonic XP SDK, your java home otherwise (system-wide `JAVA_HOME` will be used if omitted)
-<3> location of enonic XP home folder (next to config file in `xp-service-home` folder)
-<4> rotates log using <pattern> provided by both date and file size
-<5> user account (and password) that the service will run as  (`allowservicelogon` will automatically be set to true for specified user)
+<1> *XP_INSTALL* sets the location of your unzipped enonic XP distribution
+<2> *JAVA_HOME* specifies location of Java within the XP distro (system-wide `JAVA_HOME` will be used if omitted)
+<3> *XP_HOME* defines the location of Enonic XP home folder (defaults to %XP_INSTALL%/home)
+<4> *log* rotates log using <pattern> provided by both date and file size
+<5> *serviceaccount* specifies user account (and password) that the service will run as  (`allowservicelogon` will automatically be set to true for specified user)
 
 TIP: To know your user name and domain type `set user` in cmd and hit enter
 
-=== Using service
+== Using service
 
-IMPORTANT: You need to start cmd.exe with administrator rights to run service commands
+IMPORTANT: You need to start cmd.exe with administrator permissions to run service commands
 
-==== Installing
-First, we need to install our new service.
-Following command is used to do it:
+=== Installing
+First, we need to install our new service. Run the following command:
 
- xp-service.exe install
- 2019-06-20 18:09:38,107 INFO  - Installing the service with id 'xp-service'
+  xp-service.exe install
+
+Verify that the service was installed by looking at the output:
+
+  2019-06-20 18:09:38,107 INFO  - Installing the service with id 'xp-service'
 
 where `xp-service.exe` is the name of the service wrapper you downloaded earlier.
 
-==== Checking status
+=== Checking status
 
 You can check its status now by running following command:
 
- xp-service.exe status
- Stopped
+  xp-service.exe status
 
-==== Starting
+If you have not already started the service, you should see the following:
+
+  Stopped
+
+=== Starting
 
 Service is stopped by default and we need to start it with the following command:
 
- xp-service.exe start
- 2019-06-20 18:12:44,698 INFO  - Starting the service with id 'xp-service'
+  xp-service.exe start
 
-We should see that server is started if we check its status now:
+You should see something like this in the output:
 
- xp-service.exe status
- Started
+  2019-06-20 18:12:44,698 INFO  - Starting the service with id 'xp-service'
 
-==== Stopping
+=== Stopping
 
 To stop the service type:
 
- xp-service.exe stop
- 2019-06-20 18:17:14,588 INFO  - Stopping the service with id 'xp-service'
+  xp-service.exe stop
 
-==== Uninstalling
+You should now see something like this:
+
+  2019-06-20 18:17:14,588 INFO  - Stopping the service with id 'xp-service'
+
+=== Uninstalling
 
 To uninstall the service type:
 
- xp-service.exe uninstall
- 2019-06-20 18:18:02,356 INFO  - Uninstalling the service with id 'xp-service'
+  xp-service.exe uninstall
+
+Should produce output as follows:
+
+  2019-06-20 18:18:02,356 INFO  - Uninstalling the service with id 'xp-service'
