@@ -23,17 +23,17 @@ The `%BASE%` variable always points to the config file location:
     <id>xp-service</id>
     <name>Enonic XP Service</name>
     <description>Enonic XP distribution run as a MS Windows service.</description>
-    <env name="XP_INSTALL" value="%BASE%/enonic-xp-windows-sdk-7.0.0"/> <!--1-->
-    <env name="JAVA_HOME" value="%XP_INSTALL%/jdk"/> <!--2-->
-    <env name="XP_HOME" value="%BASE%/xp-service-home"/> <!--3-->
+    <env name="XP_INSTALL" value="%BASE%/enonic-xp-windows-sdk-7.0.0"/> // <1>
+    <env name="JAVA_HOME" value="%XP_INSTALL%/jdk"/> // <2>
+    <env name="XP_HOME" value="%BASE%/xp-service-home"/> // <3>
     <executable>%XP_INSTALL%/bin/server.bat</executable>
-    <log mode="roll-by-size-time"> <!--4-->
+    <log mode="roll-by-size-time"> // <4>
         <sizeThreshold>10240</sizeThreshold>
         <pattern>dd-MM-yyyy</pattern>
         <autoRollAtTime>00:00:00</autoRollAtTime>
         <keepFiles>7</keepFiles>
     </log>
-    <serviceaccount> <!--5-->
+    <serviceaccount> // <5>
         <domain>***user domain***</domain>
         <user>***user name***</user>
         <password>***user password***</password>
