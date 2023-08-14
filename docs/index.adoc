@@ -4,12 +4,14 @@ Step-by-step guide for running Enonic XP as a service.
 
 == Windows
 
-=== Download service wrapper
+=== Setup
 
-Start by download windows service wrapper binary this popular from https://github.com/kohsuke/winsw[Github repo].
+==== Download service wrapper
+
+Start by downloading Windows service wrapper binary from this popular https://github.com/winsw/winsw[Github repo].
 Rename the downloaded file to desired service name, i.e `winsw-2.2.0-bin.exe` -> `xp-service.exe`
 
-=== Create service config
+==== Create service config
 
 Create new xml file named `xp-service.xml` in the same location as `xp-service.exe` file.
 
@@ -109,7 +111,7 @@ Should produce output as follows:
 
 == Linux
 
-=== Create Service File
+=== Setup
 
 Create a new systemd service file `xp.service` with the following command:
 
@@ -135,6 +137,8 @@ Once the `xp.service` file is changed we can reload `systemctl` configuration to
 ----
 sudo systemctl daemon-reload
 ----
+
+=== Usage
 
 ==== Check status
 
