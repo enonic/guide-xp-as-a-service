@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<title>Run XP as a Windows service</title>
+<title>Run XP as a service</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,19 +436,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-right">
 <div id="header">
-<h1>Run XP as a Windows service</h1>
+<h1>Run XP as a service</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#windows">Windows</a>
+<ul class="sectlevel2">
 <li><a href="#download_service_wrapper">Download service wrapper</a></li>
 <li><a href="#create_service_config">Create service config</a></li>
-<li><a href="#using_service">Using service</a>
+<li><a href="#usage">Usage</a></li>
+</ul>
+</li>
+<li><a href="#linux">Linux</a>
 <ul class="sectlevel2">
-<li><a href="#installing">Installing</a></li>
-<li><a href="#checking_status">Checking status</a></li>
-<li><a href="#starting">Starting</a></li>
-<li><a href="#stopping">Stopping</a></li>
-<li><a href="#uninstalling">Uninstalling</a></li>
+<li><a href="#create_service_file">Create Service File</a></li>
 </ul>
 </li>
 </ul>
@@ -458,22 +459,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Step by step guide for installing Enonic XP as Windows service</p>
+<p>Step-by-step guide for running Enonic XP as a service.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="download_service_wrapper"><a class="link" href="#download_service_wrapper">Download service wrapper</a></h2>
+<h2 id="windows"><a class="link" href="#windows">Windows</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="download_service_wrapper"><a class="link" href="#download_service_wrapper">Download service wrapper</a></h3>
 <div class="paragraph">
 <p>Start by download windows service wrapper binary this popular from <a href="https://github.com/kohsuke/winsw">Github repo</a>.
 Rename the downloaded file to desired service name, i.e <code>winsw-2.2.0-bin.exe</code> &#8594; <code>xp-service.exe</code></p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="create_service_config"><a class="link" href="#create_service_config">Create service config</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="create_service_config"><a class="link" href="#create_service_config">Create service config</a></h3>
 <div class="paragraph">
 <p>Create new xml file named <code>xp-service.xml</code> in the same location as <code>xp-service.exe</code> file.</p>
 </div>
@@ -557,10 +558,8 @@ To know your user name and domain type <code>set user</code> in cmd and hit ente
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="using_service"><a class="link" href="#using_service">Using service</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="usage"><a class="link" href="#usage">Usage</a></h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -573,8 +572,8 @@ You need to start cmd.exe with administrator permissions to run service commands
 </tr>
 </table>
 </div>
-<div class="sect2">
-<h3 id="installing"><a class="link" href="#installing">Installing</a></h3>
+<div class="sect3">
+<h4 id="install"><a class="link" href="#install">Install</a></h4>
 <div class="paragraph">
 <p>First, we need to install our new service. Run the following command:</p>
 </div>
@@ -595,8 +594,8 @@ You need to start cmd.exe with administrator permissions to run service commands
 <p>where <code>xp-service.exe</code> is the name of the service wrapper you downloaded earlier.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="checking_status"><a class="link" href="#checking_status">Checking status</a></h3>
+<div class="sect3">
+<h4 id="check_status"><a class="link" href="#check_status">Check status</a></h4>
 <div class="paragraph">
 <p>You can check its status now by running following command:</p>
 </div>
@@ -614,10 +613,10 @@ You need to start cmd.exe with administrator permissions to run service commands
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="starting"><a class="link" href="#starting">Starting</a></h3>
+<div class="sect3">
+<h4 id="start"><a class="link" href="#start">Start</a></h4>
 <div class="paragraph">
-<p>Service is stopped by default and we need to start it with the following command:</p>
+<p>Service is stopped by default and must be started with the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -633,8 +632,8 @@ You need to start cmd.exe with administrator permissions to run service commands
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="stopping"><a class="link" href="#stopping">Stopping</a></h3>
+<div class="sect3">
+<h4 id="stop"><a class="link" href="#stop">Stop</a></h4>
 <div class="paragraph">
 <p>To stop the service type:</p>
 </div>
@@ -652,10 +651,10 @@ You need to start cmd.exe with administrator permissions to run service commands
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="uninstalling"><a class="link" href="#uninstalling">Uninstalling</a></h3>
+<div class="sect3">
+<h4 id="uninstall"><a class="link" href="#uninstall">Uninstall</a></h4>
 <div class="paragraph">
-<p>To uninstall the service type:</p>
+<p>To uninstall the service execute:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -674,9 +673,164 @@ You need to start cmd.exe with administrator permissions to run service commands
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="linux"><a class="link" href="#linux">Linux</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="create_service_file"><a class="link" href="#create_service_file">Create Service File</a></h3>
+<div class="paragraph">
+<p>Create a new systemd service file <code>xp.service</code> with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo touch /etc/systemd/system/xp.service</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once <code>xp.service</code> file is created you can add the service configuration options that allow to manage this service using <code>systemctl</code>. The template of service configuration you can find <a href="https://github.com/enonic/xp/blob/master/modules/runtime/src/service/systemd/xp.service">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Pay your attention to the following configuration options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Environment=XP_INSTALL=/opt/enonic/xp</code> - <code>XP_INSTALL</code> sets the location of your unzipped Enonic XP distribution.</p>
+</li>
+<li>
+<p><code>Environment=XP_JAVA_HOME=${XP_INSTALL}/jdk</code> - <code>XP_JAVA_HOME</code> specifies location of Java within the XP distro (system-wide <code>JAVA_HOME</code> will be used if omitted).</p>
+</li>
+<li>
+<p><code>ExecStart=/opt/enonic/xp/bin/server.sh</code> - commands with their arguments that are executed when this service is started. For each of the specified commands, the first argument must be an absolute path to an executable. You can find more details <a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=">here</a>.</p>
+</li>
+<li>
+<p><code>User</code> and <code>Group</code> - make sure that you have a user and a group in the system which are specified in your file with correct privileges to be able to execute files from directories specified in the <code>XP_INSTALL</code> env variable and <code>ExecStart</code> option.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It might also be useful to increase the operating system limits on <code>mmap</code> to avoid the out of memory exceptions. To set a new value permanently, update the <code>vm.max_map_count=262144</code> setting in <code>/etc/sysctl.conf</code>.</p>
+</div>
+<div class="paragraph">
+<p>Once the <code>xp.service</code> file is changed we can reload <code>systemctl</code> configuration to be able to start, stop, restart and check the status of the service with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl daemon-reload</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="check_status_2"><a class="link" href="#check_status_2">Check status</a></h4>
+<div class="paragraph">
+<p>You can check the status with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl status xp.service</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see something like this in the output:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>● xp.service - Enonic XP
+ Loaded: loaded (/etc/systemd/system/xp.service; disabled; vendor preset: enabled)
+ Active: inactive (dead)
+   Docs: https://developer.enonic.com/docs</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="start_2"><a class="link" href="#start_2">Start</a></h4>
+<div class="paragraph">
+<p>Service is stopped by default and must be started it with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl start xp.service</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you check the status again you should see something like this in the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>● xp.service - Enonic XP
+   Loaded: loaded (/etc/systemd/system/xp.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-11-20 23:46:34 +03; 4s ago
+     Docs: https://developer.enonic.com/docs
+ Main PID: 13406 (java)
+    Tasks: 118 (limit: 4915)
+   CGroup: /system.slice/xp.service
+           └─13406 /opt/enonic/xp/jdk/bin/java -XX:+CMSParallelRemarkEnabled -XX:+UseCMSInitiatingOccupancyOnly</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to start the <code>xp.service</code> service automatically when the system boots up, execute the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl enable xp.service</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see something like this in the output:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Created symlink /etc/systemd/system/multi-user.target.wants/xp.service → /etc/systemd/system/xp.service.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you check the service status you should see something like this in the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>● xp.service - Enonic XP
+   Loaded: loaded (/etc/systemd/system/xp.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: https://developer.enonic.com/docs</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="stop_2"><a class="link" href="#stop_2">Stop</a></h4>
+<div class="paragraph">
+<p>To stop the service use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl stop xp.service</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="uninstall_2"><a class="link" href="#uninstall_2">Uninstall</a></h4>
+<div class="paragraph">
+<p>To uninstall the service use the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>sudo systemctl stop xp.service
+
+sudo systemctl disable xp.service
+
+sudo rm /etc/systemd/system/xp.service
+
+sudo systemctl daemon-reload
+
+sudo systemctl reset-failed</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-08-03 12:39:21 UTC
+Last updated 2023-08-14 14:38:06 UTC
 </div>
 </div>
 </body>
