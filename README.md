@@ -1,1 +1,1 @@
-# Step by step guide for installing enonic XP as windows service
+# Step-by-step guide for installing Enonic XP as a service

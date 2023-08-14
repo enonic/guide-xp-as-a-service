@@ -1,13 +1,15 @@
-= Run XP as a Windows service
+= Run XP as a service
 
-Step by step guide for installing Enonic XP as Windows service
+Step-by-step guide for running Enonic XP as a service.
 
-== Download service wrapper
+== Windows
+
+=== Download service wrapper
 
 Start by download windows service wrapper binary this popular from https://github.com/kohsuke/winsw[Github repo].
 Rename the downloaded file to desired service name, i.e `winsw-2.2.0-bin.exe` -> `xp-service.exe`
 
-== Create service config
+=== Create service config
 
 Create new xml file named `xp-service.xml` in the same location as `xp-service.exe` file.
 
@@ -50,11 +52,11 @@ The `%BASE%` variable always points to the config file location:
 
 TIP: To know your user name and domain type `set user` in cmd and hit enter
 
-== Using service
+=== Usage
 
 IMPORTANT: You need to start cmd.exe with administrator permissions to run service commands
 
-=== Installing
+==== Install
 First, we need to install our new service. Run the following command:
 
   xp-service.exe install
@@ -65,7 +67,7 @@ Verify that the service was installed by looking at the output:
 
 where `xp-service.exe` is the name of the service wrapper you downloaded earlier.
 
-=== Checking status
+==== Check status
 
 You can check its status now by running following command:
 
@@ -75,9 +77,9 @@ If you have not already started the service, you should see the following:
 
   Stopped
 
-=== Starting
+==== Start
 
-Service is stopped by default and we need to start it with the following command:
+Service is stopped by default and must be started with the following command:
 
   xp-service.exe start
 
@@ -85,7 +87,7 @@ You should see something like this in the output:
 
   2019-06-20 18:12:44,698 INFO  - Starting the service with id 'xp-service'
 
-=== Stopping
+==== Stop
 
 To stop the service type:
 
@@ -95,12 +97,127 @@ You should now see something like this:
 
   2019-06-20 18:17:14,588 INFO  - Stopping the service with id 'xp-service'
 
-=== Uninstalling
+==== Uninstall
 
-To uninstall the service type:
+To uninstall the service execute:
 
   xp-service.exe uninstall
 
 Should produce output as follows:
 
   2019-06-20 18:18:02,356 INFO  - Uninstalling the service with id 'xp-service'
+
+== Linux
+
+=== Create Service File
+
+Create a new systemd service file `xp.service` with the following command:
+
+[source]
+----
+sudo touch /etc/systemd/system/xp.service
+----
+
+Once `xp.service` file is created you can add the service configuration options that allow to manage this service using `systemctl`. The template of service configuration you can find https://github.com/enonic/xp/blob/master/modules/runtime/src/service/systemd/xp.service[here].
+
+Pay your attention to the following configuration options:
+
+- `Environment=XP_INSTALL=/opt/enonic/xp` - `XP_INSTALL` sets the location of your unzipped Enonic XP distribution.
+- `Environment=XP_JAVA_HOME=${XP_INSTALL}/jdk` - `XP_JAVA_HOME` specifies location of Java within the XP distro (system-wide `JAVA_HOME` will be used if omitted).
+- `ExecStart=/opt/enonic/xp/bin/server.sh` - commands with their arguments that are executed when this service is started. For each of the specified commands, the first argument must be an absolute path to an executable. You can find more details https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=[here].
+- `User` and `Group` - make sure that you have a user and a group in the system which are specified in your file with correct privileges to be able to execute files from directories specified in the `XP_INSTALL` env variable and `ExecStart` option.
+
+It might also be useful to increase the operating system limits on `mmap` to avoid the out of memory exceptions. To set a new value permanently, update the `vm.max_map_count=262144` setting in `/etc/sysctl.conf`.
+
+Once the `xp.service` file is changed we can reload `systemctl` configuration to be able to start, stop, restart and check the status of the service with the following command:
+
+[source]
+----
+sudo systemctl daemon-reload
+----
+
+==== Check status
+
+You can check the status with the following command:
+
+[source]
+----
+sudo systemctl status xp.service
+----
+
+You should see something like this in the output:
+
+  ● xp.service - Enonic XP
+   Loaded: loaded (/etc/systemd/system/xp.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: https://developer.enonic.com/docs
+
+==== Start
+
+Service is stopped by default and must be started it with the following command:
+
+[source]
+----
+sudo systemctl start xp.service
+----
+
+If you check the status again you should see something like this in the output:
+
+[source]
+----
+● xp.service - Enonic XP
+   Loaded: loaded (/etc/systemd/system/xp.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-11-20 23:46:34 +03; 4s ago
+     Docs: https://developer.enonic.com/docs
+ Main PID: 13406 (java)
+    Tasks: 118 (limit: 4915)
+   CGroup: /system.slice/xp.service
+           └─13406 /opt/enonic/xp/jdk/bin/java -XX:+CMSParallelRemarkEnabled -XX:+UseCMSInitiatingOccupancyOnly
+----
+
+If you want to start the `xp.service` service automatically when the system boots up, execute the following command:
+
+[source]
+----
+sudo systemctl enable xp.service
+----
+
+You should see something like this in the output:
+
+ Created symlink /etc/systemd/system/multi-user.target.wants/xp.service → /etc/systemd/system/xp.service.
+
+If you check the service status you should see something like this in the output:
+
+[source]
+----
+● xp.service - Enonic XP
+   Loaded: loaded (/etc/systemd/system/xp.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: https://developer.enonic.com/docs
+----
+
+==== Stop
+
+To stop the service use the following command:
+
+[source]
+----
+sudo systemctl stop xp.service
+----
+
+==== Uninstall
+
+To uninstall the service use the following commands:
+
+[source]
+----
+sudo systemctl stop xp.service
+
+sudo systemctl disable xp.service
+
+sudo rm /etc/systemd/system/xp.service
+
+sudo systemctl daemon-reload
+
+sudo systemctl reset-failed
+----
